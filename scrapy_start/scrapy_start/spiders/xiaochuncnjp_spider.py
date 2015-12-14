@@ -9,18 +9,21 @@ from scrapy_start.items import RentItem
 
 class RentSpider(Spider):
     """
-    要爬取的url需要登录才能查看大图
+    爬取论坛数据示例：要爬取的页面需要登录才能查看大图
     """
     name = 'xiaochuncnjp'
     allowed_domains = ['xiaochuncnjp.com']
+    # 要爬取的url
     start_urls = [
         'http://www.xiaochuncnjp.com/forum.php?mod=forumdisplay&fid=69&filter=typeid&typeid=62'
         ]
+
     # 应该交给哪个pipeline去处理
     pipeline = set([
-        # pipelines.RentMySQLPipeline,
+        pipelines.RentMySQLPipeline,
     ])
 
+    # 伪装头部
     headers = {
         "Accept": "*/*",
         "Accept-Encoding": "gzip,deflate",
@@ -39,7 +42,7 @@ class RentSpider(Spider):
         :param response:
         :return:
         """
-        # 需要登录，从网站的登录部分分析
+        # 需要登录，使用FormRequest.from_response模拟登录
         if 'id="lsform"' in response.body:
             logging.info('in parse, need to login, url: {0}'.format(response.url))
             form_data = {'handlekey': 'ls', 'quickforward': 'yes', 'username': 'daniell123', 'password': 'admin123'}
@@ -66,7 +69,8 @@ class RentSpider(Spider):
         """
         logging.info('in parse_list, response: {0}'.format(response.body))
         if u'登录失败'.encode('utf-8') in response.body:
-            logging.info('login failed.')
+            logging.error('login failed.')
+            return
 
         # 解析出租房列表，然后遍历
         base_url = 'http://www.xiaochuncnjp.com/'

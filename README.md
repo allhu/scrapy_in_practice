@@ -1,2 +1,15 @@
-# scrapy_in_practice
-crawl examples by Scrapy framework
+使用Scrapy框架爬取网页的一些示例，给大家一个参考，也给自己做个备忘。
+
+关于搭建Scrapy爬虫开发环境，请参考文章[搭建Scrapy爬虫的开发环境](http://nkcoder.github.io/2015/11/17/Scrapy-crawl-intro-install-and-config/).
+
+运行爬虫：
+
+	GuoDaniel:python nkcoder$ cd scrapy_in_practice/
+	GuoDaniel:scrapy_in_practice nkcoder$ cd scrapy_start/
+	GuoDaniel:scrapy_start nkcoder$ ls
+	scrapy.cfg	scrapy_start
+	GuoDaniel:scrapy_start nkcoder$ source ../scrapy_env/bin/activate
+	(scrapy_env) GuoDaniel:scrapy_start nkcoder$ scrapy list
+	fish_saying
+	xiaochuncnjp
+	(scrapy_env) GuoDaniel:scrapy_start nkcoder$ scrapy crawl fish_saying
